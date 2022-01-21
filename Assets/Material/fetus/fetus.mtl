@@ -1,0 +1,42 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 31.10.2021 19:07:24
+
+newmtl phong1
+	Ns 48.0312
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0579 0.0579 0.0579
+	Kd 1.0000 0.7030 0.5600
+	Ks 0.0496 0.0496 0.0496
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Placenta
+	Ns 37.3769
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0992 0.0992 0.0992
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.2479 0.2479 0.2479
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\junk\fetus\Placenta_Texture.jpg
+	map_Kd C:\junk\fetus\Placenta_Texture.jpg
+
+newmtl uterus_pregnant1
+	Ns 35.8496
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0909 0.0909 0.0909
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.1405 0.1405 0.1405
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\junk\fetus\Uterus_Pregnant_Texture.jpg
+	map_Kd C:\junk\fetus\Uterus_Pregnant_Texture.jpg
