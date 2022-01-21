@@ -5,8 +5,8 @@ This project is part of a master thesis by Maria Nylund with the supervision of 
 In Visual Studio choose "Release", "ARM64" and click "Build without Debugging" with HoloLens 2 connected through USB and turned on.
 
 ## Tracking images
-Can be found in the project at 
-```[image targets for print by Vuforia](Assets/Editor/Vuforia/ForPrint/ImageTargets/target_images_USLetter.pdf)```
+Can be found in the project in the
+[pdf](Assets/Editor/Vuforia/ForPrint/ImageTargets/target_images_USLetter.pdf)
 
 
 - **Astronaut** for ultrasound probe
