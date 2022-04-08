@@ -18,6 +18,7 @@ public class RaycastAngle : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            
             float angle = Vector3.Angle(transform.forward, hit.transform.forward);
             float cosAngle = Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad));
             previousAngle = Mathf.RoundToInt(CurrentAngle);
@@ -30,7 +31,7 @@ public class RaycastAngle : MonoBehaviour
                 valueUpdate?.Invoke(currentAngleRounded);
             }
             //angle.text = (Mathf.Acos(cosAngle) * Mathf.Rad2Deg).ToString();
-            //Debug.Log("Did Hit " + hit.transform.name + ", angle:  " + angle + " cos: " + cosAngle + "acos: " + Mathf.Acos(cosAngle) * Mathf.Rad2Deg);
+            Debug.Log("Did Hit " + hit.transform.name + ", angle:  " + angle + " cos: " + cosAngle + "acos: " + Mathf.Acos(cosAngle) * Mathf.Rad2Deg);
         }
         else
         {
@@ -40,4 +41,6 @@ public class RaycastAngle : MonoBehaviour
         }
         
     }
+
+    
 }

@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: ntnu
-  productName: holoumoja
+  productName: BLEholoumoja
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -136,9 +136,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets:
-  - {fileID: -5886649965693238437, guid: b42fdfb4301af6441ade275a99f57c43, type: 2}
-  - {fileID: 253068655397237007, guid: ccfcc1c19beeb3e40b6ffecd226da296, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -619,10 +617,11 @@ PlayerSettings:
   gcIncremental: 0
   assemblyVersionValidation: 1
   gcWBarrierValidation: 0
-  apiCompatibilityLevelPerPlatform: {}
+  apiCompatibilityLevelPerPlatform:
+    WSA: 6
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: ntnu.holoumoja
+  metroPackageName: ntnu.BLEholoumoja
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
@@ -678,7 +677,7 @@ PlayerSettings:
       HumanInterfaceDevice: False
       Location: False
       Chat: False
-      Bluetooth: False
+      Bluetooth: True
       AllJoyn: False
       MusicLibrary: False
       LowLevelDevices: False
