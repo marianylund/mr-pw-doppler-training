@@ -1,13 +1,16 @@
+using System;
 using UnityEngine;
 
 public class RaycastAngle : MonoBehaviour
 {
     public delegate void OnRaycastAngle(int newAngle);
     public OnRaycastAngle valueUpdate;
-
+    [SerializeField] private UltrasoundVisualiser visualiser;
     [SerializeField] private GameObject AngleTextObject;
     public float CurrentAngle { get; private set; }
     private int previousAngle;
+
+    private bool _notifiedAboutNoIntersection = false;
     void FixedUpdate()
     {
         // Bit shift the index of the layer (8) to get a bit mask
@@ -29,15 +32,24 @@ public class RaycastAngle : MonoBehaviour
             {
                 SampleUtil.AssignStringToTextComponent(AngleTextObject ? AngleTextObject : gameObject, "Angle:\n" + currentAngleRounded);
                 valueUpdate?.Invoke(currentAngleRounded);
+                visualiser.OnIntersecting(-30 < currentAngleRounded && currentAngleRounded < 30);
+                _notifiedAboutNoIntersection = false;
             }
             //angle.text = (Mathf.Acos(cosAngle) * Mathf.Rad2Deg).ToString();
-            Debug.Log("Did Hit " + hit.transform.name + ", angle:  " + angle + " cos: " + cosAngle + "acos: " + Mathf.Acos(cosAngle) * Mathf.Rad2Deg);
+            //Debug.Log("Did Hit " + hit.transform.name + ", angle:  " + angle + " cos: " + cosAngle + "acos: " + Mathf.Acos(cosAngle) * Mathf.Rad2Deg);
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             //SampleUtil.AssignStringToTextComponent(AngleTextObject ? AngleTextObject : gameObject, "Angle: ?");
-            //Debug.Log("Did not Hit");
+            if (!_notifiedAboutNoIntersection)
+            {
+                visualiser.OnNoIntersect();
+                _notifiedAboutNoIntersection = true;
+                Debug.Log("Notified " + _notifiedAboutNoIntersection);
+                CurrentAngle = -1000;
+            }
+            
         }
         
     }
