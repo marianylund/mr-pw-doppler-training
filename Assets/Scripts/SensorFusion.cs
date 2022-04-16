@@ -8,6 +8,9 @@ public class SensorFusion : MonoBehaviour
     public Transform mergedObject;
     private BLEBehaviour _ble;
     private TargetStatus status;
+
+    [Tooltip("Vuforia to gyroscope when Vuforia is tracked")]
+    [SerializeField] private float fusionRatio = 0.15f; 
     
     private Quaternion _lastBleRotation = Quaternion.identity;
     
@@ -24,10 +27,18 @@ public class SensorFusion : MonoBehaviour
     /// <param name="observerBehaviour"></param>
     public void TargetStatusChanged(ObserverBehaviour observerBehaviour)
     {
-        if (_ble == null)
-            return;
         status = observerBehaviour.TargetStatus;
-        if (status.Status != Status.TRACKED)
+        
+        if (status.Status == Status.NO_POSE)
+        {
+            mergedObject.gameObject.SetActive(false);
+            return;
+        }
+        
+        if(!mergedObject.gameObject.activeSelf)
+            mergedObject.gameObject.SetActive(true);
+        
+        if (status.Status != Status.TRACKED && _ble.isConnected)
         {
             _ble.StartWritingHandler(vuforiaProbeObj.localRotation);
         }
@@ -41,7 +52,8 @@ public class SensorFusion : MonoBehaviour
     {
        //Quaternion diff = vuforiaProbeObj.rotation * Quaternion.Inverse(_lastBleRotation);
         //Debug.Log("Rotation difference: " + diff + ", euler: " + diff.eulerAngles);
-        _ble.StartWritingHandler(vuforiaProbeObj.localRotation);
+        if(_ble.isConnected)
+            _ble.StartWritingHandler(vuforiaProbeObj.localRotation);
     }
 
     private void FixedUpdate()
@@ -51,14 +63,21 @@ public class SensorFusion : MonoBehaviour
         if (status.Status == Status.TRACKED && status.StatusInfo == StatusInfo.NORMAL)
         {
             mergedObject.localPosition = vuforiaProbeObj.localPosition;
-            mergedObject.localRotation = vuforiaProbeObj.localRotation;
+            if (_ble.isConnected)
+            {
+                mergedObject.localRotation = Quaternion.Lerp(vuforiaProbeObj.localRotation, _lastBleRotation, fusionRatio);
+            }
+            else
+            {
+                mergedObject.localRotation = vuforiaProbeObj.localRotation;
+            }
             //mergedObject.SetPositionAndRotation(vuforiaProbeObj.position, vuforiaProbeObj.rotation);
         }
-        else
+        else if (status.Status == Status.EXTENDED_TRACKED || status.Status == Status.LIMITED)
         {
             mergedObject.localPosition = vuforiaProbeObj.localPosition;
-            mergedObject.localRotation = _lastBleRotation;
-        }
+            mergedObject.localRotation = _ble.isConnected ? _lastBleRotation : vuforiaProbeObj.localRotation;
+        } 
     }
 
     private void GetData(Quaternion rotation)
