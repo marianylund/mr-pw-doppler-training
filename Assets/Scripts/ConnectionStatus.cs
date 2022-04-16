@@ -6,6 +6,9 @@ public class ConnectionStatus : MonoBehaviour
     [SerializeField] private BLEBehaviour _ble;
     [SerializeField] private Text status;
 
+    private readonly Color connectedColour = Color.Lerp(Color.white, Color.green, 0.3f);
+    private readonly Color disconnectedColour = Color.Lerp(Color.white, Color.red, 0.3f);
+
     private bool prevConnection;
     
     private void Update()
@@ -22,12 +25,12 @@ public class ConnectionStatus : MonoBehaviour
         if (connected)
         {
             status.text = "BLE\nConnected";
-            status.color = Color.Lerp(Color.white, Color.green, 0.3f);
+            status.color = connectedColour;
         }
         else
         {
             status.text = "BLE\nDisconnected";
-            status.color = Color.Lerp(Color.white, Color.red, 0.3f);
+            status.color = disconnectedColour;
         }
     }
 
