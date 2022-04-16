@@ -136,6 +136,7 @@ public class BLE
             throw new InvalidOperationException("the old scan is still running");
         currentScan.Found = null;
         currentScan.Finished = null;
+        currentScan.cancelled = false;
         scanThread = new Thread(() =>
         {
             Impl.StartDeviceScan();

@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using UnityEngine;
 using System.Threading;
@@ -10,11 +12,8 @@ public class BLEBehaviour : MonoBehaviour
     public delegate void BLEEvent(Quaternion rotation);
     public BLEEvent OnDataRead;
 
-    public TMP_Text textIsScanning;
-    public TMP_Text textTargetDeviceConnection;
-    public TMP_Text textTargetDeviceData;
-    public TMP_Text textDiscoveredDevices;
-
+    [SerializeField] private BLEMenuState menu;
+    
     // Change this to match your device.
     private string _targetDeviceName = "Arduino";
     private string _serviceUuid = "{19b10000-e8f2-537e-4f6c-d104768a1214}";
@@ -32,6 +31,7 @@ public class BLEBehaviour : MonoBehaviour
     private string _deviceId;
     private readonly IDictionary<string, string> _discoveredDevices = new Dictionary<string, string>();
     private int _devicesCount;
+    
     private byte[] _valuesToWrite;
     private Quaternion _newRotation;
     private string _result;
@@ -43,60 +43,61 @@ public class BLEBehaviour : MonoBehaviour
     // BLE Threads 
     private Thread _scanningThread, _connectionThread, _readingThread, _writingThread;
 
+    private Coroutine _restartingCoroutine;
+    private bool isRestarting;
+    
+    // For handling UI
     private void Start()
     {
         _ble = new BLE();
-        
-        textTargetDeviceConnection.text = _targetDeviceName + " not found.";
         _readingThread = new Thread(ReadBleData);
+        menu.Init(_targetDeviceName);
     }
-
 
     private void Update()
     {
+        if (isRestarting)
+            return;
+        
         if (isScanning)
         {
             if (_discoveredDevices.Count > _devicesCount)
             {
-                UpdateGuiText("scan");
-
+                menu.UpdateDiscoveredDevices(_discoveredDevices);
                 _devicesCount = _discoveredDevices.Count;
             }                
         } else
         {
-            if (textIsScanning.text != "Not scanning.")
-            {
-                textIsScanning.color = Color.white;
-                textIsScanning.text = "Not scanning.";
-            }
+            menu.OnNotScanning();
+        }
+        
+        if (hasDisconnected)
+        {
+            menu.UpdateTextOnDisconnect(_targetDeviceName);
+            hasDisconnected = false;
         }
 
         // The target device was found.
         if (_deviceId != null && _deviceId != "-1")
         {
-            if (hasDisconnected)
-            {
-                UpdateGuiText("disconnect");
-                hasDisconnected = false;
-            }
             // Target device is connected and GUI knows.
             if (_ble.isConnected && isConnected)
             {
-                UpdateGuiText("readData");
+                TryToReadData();
             }
             // Target device is connected, but GUI hasn't updated yet.
             else if (_ble.isConnected && !isConnected)
             {
-                UpdateGuiText("connected");
-                isConnected = true;
-                // Device was found, but not connected yet. 
+                menu.UpdateConnectedText(_targetDeviceName);
+                isConnected = true; 
+            // Device was found, but not connected yet. 
             } else if (!isConnected)
             {
-                textTargetDeviceConnection.text = "Found target device:\n" + _targetDeviceName;
+                menu.DeviceFoundNotConnected(_targetDeviceName);
             } 
         }
     }
-    
+
     public void StartScanHandler()
     {
         if (!hasTriedScanning)
@@ -107,17 +108,13 @@ public class BLEBehaviour : MonoBehaviour
             _discoveredDevices.Clear();
             _scanningThread = new Thread(ScanBleDevices);
             _scanningThread.Start();
-            textIsScanning.color = new Color(244, 180, 26);
-            textIsScanning.text = "Scanning...";
-            textIsScanning.text +=
-                $"Searching for {_targetDeviceName} with \nservice {_serviceUuid} and \ncharacteristic {_characteristicUuids[0]}";
-            textDiscoveredDevices.text = "";
+            menu.OnScanStart(_targetDeviceName, _serviceUuid, _characteristicUuids);
         }
         else if (!_ble.isConnected) // Do not reset if it is connected and well
         {
             CleanUp();
             _ble = new BLE();
-            textTargetDeviceConnection.text = _targetDeviceName + " not found. Restarted ...";
+            menu.OnRestartingConnection(_targetDeviceName);
             hasTriedScanning = false;
             StartScanHandler();
         }
@@ -189,8 +186,6 @@ public class BLEBehaviour : MonoBehaviour
         {
             Debug.LogWarning("Could not start connecting to device with ID " + _deviceId + "\n" + e);
         }
-
-
     }
 
     private void ConnectBleDevice()
@@ -221,92 +216,32 @@ public class BLEBehaviour : MonoBehaviour
         hasDisconnected = true;
     }
 
-    private void UpdateGuiText(string action)
+    private void TryToReadData()
     {
-        switch(action) {
-            case "scan":
-                textDiscoveredDevices.text = "";
-                foreach (KeyValuePair<string, string> entry in _discoveredDevices)
-                {
-                    textDiscoveredDevices.text += "DeviceID: " + entry.Key + "\nDeviceName: " + entry.Value + "\n\n";
-                    Debug.Log("Added device: " + entry.Key);
-                }
-                break;
-            case "connected":
-                textTargetDeviceConnection.text = "Connected to target device:\n" + _targetDeviceName;
-                break;
-            case "readData":
-                if (isConnected && !_readingThread.IsAlive)
-                {
-                    _readingThread = new Thread(ReadBleData);
-                    _readingThread.Start();
-                    
-                    textTargetDeviceData.text = "Rot: " + _newRotation.eulerAngles;
-                    OnDataRead?.Invoke(_newRotation);
-                    _readingTimer = 0f;
-                }else if (_readingTimer > _readingTimeOut)
-                {
-                    CleanUp();
-                    textTargetDeviceConnection.text = "Reading thread is timed out, disconnecting ...";
-                    textDiscoveredDevices.text = "Discovered devices reset.";
-                    textTargetDeviceData.text = $"Have not been able to get new data for {_readingTimer} seconds";
-                    _readingTimer = 0f;
-                }
-                else
-                {
-                    if (_readingTimer > _readingTimeOut / 2.0f)
-                    {
-                        textTargetDeviceData.text = $"Have not been able to get new data for {_readingTimer} seconds";
-                        Debug.Log(textTargetDeviceData.text);
-                    }
-                    _readingTimer += Time.deltaTime;
-                }
-                break;
-            case "disconnect":
-                textTargetDeviceConnection.text = "Disconnected from " + _targetDeviceName;
-                textTargetDeviceData.text = "";
-                textIsScanning.text = "";
-                textDiscoveredDevices.text = "";
-                break;
-            default:
-                Debug.LogWarning("There is no case for changing UI for: " + action);
-                break;
-        }
-    }
-    
-    private void OnDestroy()
-    {
-        CleanUp();
-    }
-
-    private void OnApplicationQuit()
-    {
-        CleanUp();
-    }
-
-    // Prevent threading issues and free BLE stack.
-    // Can cause Unity to freeze and lead
-    // to errors when omitted.
-    private void CleanUp()
-    {
-        try
+        if (isConnected && !_readingThread.IsAlive)
         {
-            isScanning = false;
-            isConnected = false;
-            hasTriedScanning = false;
+            _readingThread = new Thread(ReadBleData);
+            _readingThread.Start();
+
+            menu.UpdateReadData("Rot: " + _newRotation.eulerAngles);
+            OnDataRead?.Invoke(_newRotation);
             _readingTimer = 0f;
-            _discoveredDevices.Clear();
-            _scan.Cancel();
-            _ble.Close();
-            _scanningThread.Abort();
-            _connectionThread.Abort();
-            _readingThread.Abort();
-            _writingThread.Abort();
-
-        } catch(NullReferenceException e)
+        }
+        else if (_readingTimer > _readingTimeOut)
         {
-            Debug.Log("Thread or object never initialized.\n" + e);
-        }        
+            CleanUp();
+            _ble = new BLE();
+            menu.ReadingThreadTimedOut(_readingTimer);
+            _readingTimer = 0f;
+        }
+        else
+        {
+            if (_readingTimer > _readingTimeOut / 2.0f)
+            {
+                menu.NoNewData(_readingTimer);
+            }
+            _readingTimer += Time.deltaTime;
+        }
     }
 
     public void StartWritingHandler(Quaternion newCalibratedRotation)
@@ -318,9 +253,9 @@ public class BLEBehaviour : MonoBehaviour
         }
 
         string strValues = $"{newCalibratedRotation.x},{newCalibratedRotation.y},{newCalibratedRotation.z},{newCalibratedRotation.w};";
-        textTargetDeviceData.text = "Writing some new: " + strValues;
-        _valuesToWrite = Encoding.ASCII.GetBytes(strValues); 
+        menu.UpdateWriteData("Writing some new: " + strValues);
         
+        _valuesToWrite = Encoding.ASCII.GetBytes(strValues);
         _writingThread = new Thread(WriteBleData);
         _writingThread.Start();
     }
@@ -366,7 +301,6 @@ public class BLEBehaviour : MonoBehaviour
             Debug.Log("Reading data from writeCharacteristic: " + Encoding.UTF8.GetString(packageReceived));
             return;
         }
-        
 
         if (prevCharId == _characteristicUuids[2])
         {
@@ -382,6 +316,62 @@ public class BLEBehaviour : MonoBehaviour
             
             _newRotation = new Quaternion(x, y, z, w);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        CleanUp();
+    }
+
+    private void OnApplicationQuit()
+    {
+        CleanUp();
+    }
+
+    private void StartCleaningUp()
+    {
+        if (isRestarting)
+        {
+            if (_restartingCoroutine != null) StopCoroutine(_restartingCoroutine);
+            throw new WarningException("Starting to clean when already restarting");
+        }
+
+        isRestarting = true;
+        _restartingCoroutine = StartCoroutine(CleaningUp());
+    }
+
+    IEnumerator CleaningUp()
+    {
+        CleanUp();
+        yield return new WaitForEndOfFrame();
+        isRestarting = false;
+    }
+
+    // Prevent threading issues and free BLE stack.
+    // Can cause Unity to freeze and lead
+    // to errors when omitted.
+    private void CleanUp()
+    {
+        try
+        {
+            isScanning = false;
+            isConnected = false;
+            hasTriedScanning = false;
+            _readingTimer = 0f;
+            _deviceId = null;
+            _discoveredDevices.Clear();
+            _scan.Cancel();
+            _ble.Close();
+            _scanningThread.Abort();
+            _connectionThread.Abort();
+            _readingThread.Abort();
+            _writingThread.Abort();
+            menu.CleanUp();
+
+        } catch(NullReferenceException e)
+        {
+            Debug.Log("Thread or object never initialized.\n" + e);
+        }        
     }
 
 }
