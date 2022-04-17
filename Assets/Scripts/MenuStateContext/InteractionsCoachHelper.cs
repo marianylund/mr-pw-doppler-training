@@ -30,10 +30,11 @@ public class InteractionsCoachHelper : MonoBehaviour
         interaction.StartHintLoop();
     }
 
-    public void ShowProbe(Vector3 pos)
+    public void ShowProbe(Transform pos)
     {
         probe.StopHintLoop();
-        probe.transform.position = pos;
+        probe.transform.position = pos.position;
+        probe.transform.SetParent(pos);
         probe.StartHintLoop();
     }
 

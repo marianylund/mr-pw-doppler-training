@@ -3,7 +3,7 @@ using UnityEngine;
 public class AngleMenuState : MenuState
 {
     [SerializeField] private AudioClip taskDoneAudioClip;
-    
+    [SerializeField] private Transform probeCoachPosition;
     public override MenuType GetMenuType() => MenuType.Angle;
 
     // If intersecting then good job!
@@ -16,8 +16,7 @@ public class AngleMenuState : MenuState
     public override void Show()
     {
         gameObjectMenu.SetActive(true);
-        // TODO: find a relevant position to show the hand at 
-        Context.interactionHint.ShowHand(this.transform.position);
+        Context.interactionHint.ShowProbe(probeCoachPosition);
     }
 
     public override void Hide()
