@@ -202,7 +202,7 @@ public class MenuContext : MonoBehaviour
     public void ResetPosition()
     {
         _followMeToggle.SetFollowMeBehavior(true);
-        spectrogram.enabled = true;
+        spectrogram.enabled = true; // Enabling orbiting Script there that makes it snap back into place 
         pinButton.IsToggled = false;
         StartCoroutine(ResetMenuPosition());
     }

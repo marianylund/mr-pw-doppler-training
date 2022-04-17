@@ -30,7 +30,7 @@ public class MenuButtons : MonoBehaviour
         
         int state = (int) menuState;
 
-        if (menuState == MenuType.TutorialFinished)
+        if (!_unlockedTutorial && menuState >= MenuType.TutorialFinished)
         {
             UnlockTutorial();
         }

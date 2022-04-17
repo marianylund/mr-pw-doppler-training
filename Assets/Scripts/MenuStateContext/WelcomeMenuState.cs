@@ -21,7 +21,6 @@ public class WelcomeMenuState: MenuState
     }
 
     private void SkipToAfterTutorial()
-
     {
         Context.SetState((MenuType) (((int) MenuType.TutorialFinished) + 1));
     }
