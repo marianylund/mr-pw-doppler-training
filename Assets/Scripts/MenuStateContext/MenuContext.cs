@@ -38,6 +38,7 @@ public class MenuContext : MonoBehaviour
     [SerializeField] public MenuButtons menuButtons;
     [SerializeField] public InteractionsCoachHelper interactionHint;
     [SerializeField] public Orbital spectrogram;
+    [SerializeField] public GameObject dialogPrefab;
 
     private FollowMeToggle _followMeToggle;
     private RadialView _radialView;
@@ -214,6 +215,45 @@ public class MenuContext : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
         _radialView.MaxViewDegrees = maxViewDegrees;
 
+    }
+
+    public void ExitApplication()
+    {
+        Dialog myDialog = Dialog.Open(dialogPrefab, DialogButtonType.Yes | DialogButtonType.No, "Exiting Application",
+            "Are you sure you want to close the application?", true);
+        Debug.Log("My dialog: " + myDialog);
+        if (myDialog != null)
+        {
+            ChangeVisibilityOfChildren(false);
+            myDialog.OnClosed += OnClosedDialogEvent;
+        }
+    }
+
+    private void ChangeVisibilityOfChildren(bool active)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(active);
+        }
+    }
+    
+    private void OnClosedDialogEvent(DialogResult obj)
+    {
+        if (obj.Result == DialogButtonType.Yes)
+        {
+            // save any game data here
+#if UNITY_EDITOR
+            // Application.Quit() does not work in the editor so
+            // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
+        }
+        else
+        {
+            ChangeVisibilityOfChildren(true);
+        }
     }
 
     private void OnDestroy()

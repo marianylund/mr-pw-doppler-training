@@ -7,6 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1396472100, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0018
+      objectReference: {fileID: 0}
+    - target: {fileID: 58458944516802449, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0224
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279357542045066842, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00179999
+      objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434851, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: m_RootOrder
@@ -67,10 +81,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: PRFSlider Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7500550336018610020, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952628299292642970, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8744243913522739703, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 28
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
