@@ -37,6 +37,7 @@ public class MenuContext : MonoBehaviour
     [SerializeField] public PressableButton resetButton;
     [SerializeField] public MenuButtons menuButtons;
     [SerializeField] public InteractionsCoachHelper interactionHint;
+    [SerializeField] public Orbital spectrogram;
 
     private FollowMeToggle _followMeToggle;
     private RadialView _radialView;
@@ -201,6 +202,7 @@ public class MenuContext : MonoBehaviour
     public void ResetPosition()
     {
         _followMeToggle.SetFollowMeBehavior(true);
+        spectrogram.enabled = true;
         pinButton.IsToggled = false;
         StartCoroutine(ResetMenuPosition());
     }

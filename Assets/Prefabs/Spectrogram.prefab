@@ -920,7 +920,7 @@ GameObject:
   - component: {fileID: 4328347680304468820}
   - component: {fileID: 4328347680304468823}
   m_Layer: 0
-  m_Name: Spectographs
+  m_Name: Spectrogram
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

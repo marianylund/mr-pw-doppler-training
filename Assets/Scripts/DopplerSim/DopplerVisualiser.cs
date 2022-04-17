@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,7 +47,7 @@ namespace DopplerSim
             for (int t = Simulator.n_timepoints - 1; t >= 0; t--) // have to go in opposite direction to go from left to right
             {
                 Simulator.UpdatePlot(t);
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForUpdate();
             }
 
             onFinish();
