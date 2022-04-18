@@ -16,6 +16,7 @@ namespace DopplerSim
         [SerializeField] private RectTransform tickTemplateY;
         [SerializeField] private RectTransform tickTemplateX;
         [SerializeField] private RectTransform xAxis;
+        [SerializeField] private RectTransform loadingLine;
         
 
         private RawImage _rawImage;
@@ -30,6 +31,7 @@ namespace DopplerSim
             Simulator = new DopplerSimulator();
             _rawImage.texture = Simulator.CreatePlot();
             _rawImage.SetNativeSize();
+            loadingLine.gameObject.SetActive(false);
             CreateAxis();
         }
 
@@ -79,12 +81,15 @@ namespace DopplerSim
 
         private IEnumerator UpdateDopplerGraphRoutine(Action onFinish)
         {
+            loadingLine.gameObject.SetActive(true);
             for (int t = Simulator.n_timepoints - 1; t >= 0; t--) // have to go in opposite direction to go from left to right
             {
                 Simulator.UpdatePlot(t);
+                loadingLine.anchoredPosition = new Vector2(Simulator.n_timepoints - t, 0);
                 yield return new WaitForUpdate();
             }
-
+            
+            loadingLine.gameObject.SetActive(false);
             onFinish();
         }
 
