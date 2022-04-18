@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Threading;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +11,12 @@ namespace DopplerSim
     {
         public delegate void OnDopplerVisualiser();
         public OnDopplerVisualiser dopplerUpdate;
+
+        [SerializeField] private RectTransform labelTemplateY;
+        [SerializeField] private RectTransform tickTemplateY;
+        [SerializeField] private RectTransform tickTemplateX;
+        [SerializeField] private RectTransform xAxis;
+        
 
         private RawImage _rawImage;
         public DopplerSimulator Simulator;
@@ -25,6 +30,36 @@ namespace DopplerSim
             Simulator = new DopplerSimulator();
             _rawImage.texture = Simulator.CreatePlot();
             _rawImage.SetNativeSize();
+            CreateAxis();
+        }
+
+        private void CreateAxis()
+        {
+            const float gapY = 10f;
+            const int velocityStepY = 30;
+            const int timeStepX = velocityStepY;
+            Transform parent = transform.parent;
+            
+            for (int tick = -4; tick < 6; tick++)
+            {
+                RectTransform tickY = Instantiate(tickTemplateY, parent);
+                tickY.anchoredPosition = new Vector2(tickTemplateY.anchoredPosition.x, gapY * tick + xAxis.anchoredPosition.y);
+                tickY.gameObject.SetActive(true);
+                
+                if(tick <= 0)
+                    continue;
+                RectTransform labelY = Instantiate(labelTemplateY, parent);
+                labelY.anchoredPosition = new Vector2(labelTemplateY.anchoredPosition.x, gapY * tick + xAxis.anchoredPosition.y);
+                labelY.gameObject.SetActive(true);
+                labelY.GetComponent<Text>().text = (tick* 20f).ToString();
+            }
+
+            for (int tick = 1; tick < 7; tick++)
+            {
+                RectTransform tickX = Instantiate(tickTemplateX, parent);
+                tickX.anchoredPosition = new Vector2( tickTemplateX.anchoredPosition.x - timeStepX * tick, tickTemplateX.anchoredPosition.y);
+                tickX.gameObject.SetActive(true);
+            }
 
         }
 

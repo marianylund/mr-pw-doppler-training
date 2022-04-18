@@ -6,7 +6,7 @@ public class AngleMenuState : MenuState
     [SerializeField] private Transform probeCoachPosition;
     public override MenuType GetMenuType() => MenuType.Angle;
 
-    // If intersecting then good job!
+    // TODO: Subscribe to valueUpdate from RaycastAngle the first time to play it
     private void IntersectedForTheFirstTime()
     {
         Context.myAudioSource.PlayOneShot(taskDoneAudioClip);
