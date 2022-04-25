@@ -13,8 +13,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 58458944516802449, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 64.72485
+      objectReference: {fileID: 0}
+    - target: {fileID: 58458944516802449, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.1799
+      objectReference: {fileID: 0}
+    - target: {fileID: 58458944516802449, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0224
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5279357542045066842, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
@@ -94,7 +104,17 @@ PrefabInstance:
     - target: {fileID: 8744243913522739703, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 14
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744243913522739703, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744243913522739703, guid: 1093263a89abe47499cccf7dcb08effb,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}

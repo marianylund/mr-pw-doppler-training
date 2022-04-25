@@ -16,8 +16,15 @@ public class SimpleSliderBehaviour : MonoBehaviour
     private Text _maxValue;
     private PinchSlider _pinchSlider;
     
+    /// <summary>
+    /// Interpolated value between min and max
+    /// </summary>
     public float CurrentValue {  get; private set; }
-    
+    /// <summary>
+    /// Non-interpolated current slider value
+    /// </summary>
+    public float CurrentRawValue => _pinchSlider.SliderValue;
+
     [SerializeField]
     private string floatAccuracy = "F0";
     // Start is called before the first frame update

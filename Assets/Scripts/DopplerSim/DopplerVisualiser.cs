@@ -12,6 +12,8 @@ namespace DopplerSim
         public delegate void OnDopplerVisualiser();
         public OnDopplerVisualiser dopplerUpdate;
 
+        public bool ShowMaxValues = true;
+
         [SerializeField] private RectTransform labelTemplateY;
         [SerializeField] private RectTransform tickTemplateY;
         [SerializeField] private RectTransform tickTemplateX;
@@ -40,10 +42,17 @@ namespace DopplerSim
 
         private void UpdateMaxValues()
         {
-            string velocityColour = Simulator.IsVelocityOverMax ? "red" : "green";
-            var roundedMaxVelocity = Mathf.Round(Simulator.MaxVelocity * 10) / 10;
-            maxValues.text = $"Max PRF: {Mathf.RoundToInt(Simulator.MaxPRF)} kHz     " +
-                             $"Max Velocity: <color={velocityColour}>{roundedMaxVelocity}</color> cm/s";
+            if (ShowMaxValues)
+            {
+                string velocityColour = Simulator.IsVelocityOverMax ? "red" : "green";
+                var roundedMaxVelocity = Mathf.Round(Simulator.MaxVelocity * 10) / 10;
+                maxValues.text = $"Max PRF: {Mathf.RoundToInt(Simulator.MaxPRF)} kHz                      " +
+                                 $"Max Velocity: <color={velocityColour}>{roundedMaxVelocity}</color> cm/s";
+            }
+            else
+            {
+                maxValues.text = "";
+            }
         }
 
         private void CreateAxis()
