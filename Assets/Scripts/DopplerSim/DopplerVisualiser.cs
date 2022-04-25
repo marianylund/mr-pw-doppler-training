@@ -17,8 +17,10 @@ namespace DopplerSim
         [SerializeField] private RectTransform tickTemplateX;
         [SerializeField] private RectTransform xAxis;
         [SerializeField] private RectTransform loadingLine;
-        
 
+        // "Max PRF: 22\tMax Velocity: ??"
+        [SerializeField] private Text maxValues;
+        
         private RawImage _rawImage;
         public DopplerSimulator Simulator;
 
@@ -33,6 +35,15 @@ namespace DopplerSim
             _rawImage.SetNativeSize();
             loadingLine.gameObject.SetActive(false);
             CreateAxis();
+            UpdateMaxValues();
+        }
+
+        private void UpdateMaxValues()
+        {
+            string velocityColour = Simulator.IsVelocityOverMax ? "red" : "green";
+            var roundedMaxVelocity = Mathf.Round(Simulator.MaxVelocity * 10) / 10;
+            maxValues.text = $"Max PRF: {Mathf.RoundToInt(Simulator.MaxPRF)} kHz     " +
+                             $"Max Velocity: <color={velocityColour}>{roundedMaxVelocity}</color> cm/s";
         }
 
         private void CreateAxis()
@@ -67,6 +78,7 @@ namespace DopplerSim
 
         public void UpdateDoppler()
         {
+            UpdateMaxValues();
             if (_currentCoroutine == null)
             {
                 _currentCoroutine = StartCoroutine(UpdateDopplerGraphRoutine(() => _currentCoroutine = null));

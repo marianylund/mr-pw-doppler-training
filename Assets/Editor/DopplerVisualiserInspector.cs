@@ -1,5 +1,4 @@
 ﻿using UnityEditor;
-using UnityEngine;
 
 namespace DopplerSim
 {
@@ -10,7 +9,8 @@ namespace DopplerSim
         private float _arterialVelocity = 1.0f;
         private float _pulseRepetitionFrequency = 20;
         private float _angle = 45f;
-        private float _samplingDepth = 3.0F;
+        private float _samplingDepth = 0.5F;
+        private float _maxPrf = 22f;
 
         public override void OnInspectorGUI()
         {
@@ -21,11 +21,11 @@ namespace DopplerSim
             EditorGUILayout.LabelField("Arterial Velocity");
             _arterialVelocity = EditorGUILayout.Slider(_arterialVelocity, 0.0f, 3.0f);
             EditorGUILayout.LabelField("Pulse Repetition Frequency");
-            _pulseRepetitionFrequency = EditorGUILayout.Slider(_pulseRepetitionFrequency, 1f, 22f);
+            _pulseRepetitionFrequency = EditorGUILayout.Slider(_pulseRepetitionFrequency, 1f, _maxPrf);
             EditorGUILayout.LabelField("Angle");
             _angle = EditorGUILayout.Slider(_angle, 15f, 90f);
             EditorGUILayout.LabelField("Sampling Depth");
-            _samplingDepth = EditorGUILayout.Slider(_samplingDepth, 0.4f, 7f);
+            _samplingDepth = EditorGUILayout.Slider(_samplingDepth, 0.05f, 1f);
 
             
             if (EditorGUI.EndChangeCheck())
@@ -34,6 +34,8 @@ namespace DopplerSim
                 _dopplerVisualiser.Simulator.PulseRepetitionFrequency = _pulseRepetitionFrequency;
                 _dopplerVisualiser.Simulator.Angle = _angle;
                 _dopplerVisualiser.Simulator.SamplingDepth = _samplingDepth;
+                
+                _maxPrf = _dopplerVisualiser.Simulator.MaxPRF;
                 _dopplerVisualiser.UpdateDoppler();
             }
         }

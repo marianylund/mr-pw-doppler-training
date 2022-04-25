@@ -57,7 +57,7 @@ namespace DopplerSim
             set => PRF = value * 1000D;
         }
         
-        public float MaxPRF => 1540.0f / (2.0f * ((float)depth * 7.0f / 100.0f)); // "Max PRF: " + Math.round(PRFmax / 1000.0D) + " kHz
+        public float MaxPRF => (1540.0f / (2.0f * ((float)depth * 7.0f / 100.0f)))  / 1000.0f; // "Max PRF: " + Math.round(PRFmax / 1000.0D) + " kHz
 
         // Plot1D pFreqF;
         // Plot1D pFreqR;
