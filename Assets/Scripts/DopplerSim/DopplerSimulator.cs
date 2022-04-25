@@ -12,12 +12,8 @@ namespace DopplerSim
         private double av_depth = 3.0D;
         public float SamplingDepth
         {
-            get => (float)av_depth;
-            set
-            {
-                av_depth = value;
-                depth = (av_depth / 7.0D + 0.0125D + 0.05D);
-            }
+            get => (float)depth;
+            set => depth = value;
         }
         private double depth;
         private double theta = 0.7853981633974483D;
@@ -31,13 +27,24 @@ namespace DopplerSim
         public float ArterialVelocity
         {
             get => (float)vArt;
-            set
+            set => vArt = value;
+        }
+
+        public float MaxVelocity // "Max Velocity: " + Math.round(max_vel * 10.0D) / 10.0D + " m/s"
+        {
+            get
             {
-                vArt = value;
-                vArtSD = (0.1D * vArt);
-                //depth = (av_depth / 7.0D + 0.0125D + 0.05D);
+                if (theta < Math.PI/2.0D) // 1.5707963267948966D
+                {
+                    return (float)(PRF * 1540.0D / (4.0D * f0 * Math.Cos(theta)));
+                }
+
+                return Mathf.Infinity;
             }
         }
+
+        public bool IsVelocityOverMax => vArt > MaxVelocity;
+        
         private double vArtSD;
         private double vVein = 0.4D;
         private double vVeinSD;
@@ -50,6 +57,8 @@ namespace DopplerSim
             set => PRF = value * 1000D;
         }
         
+        public float MaxPRF => 1540.0f / (2.0f * ((float)depth * 7.0f / 100.0f)); // "Max PRF: " + Math.round(PRFmax / 1000.0D) + " kHz
+
         // Plot1D pFreqF;
         // Plot1D pFreqR;
         // Plot1D pSampled;
@@ -87,7 +96,7 @@ namespace DopplerSim
             plotTime.data[timepoint] = generateDisplay(getVelocityComponents(depth), arterialPulse(1.0D, timepoint));
             plotTime.setOneDataRow(timepoint);
         }
-
+        
         protected double[] getVelocityComponents(double depth) {
             double avpos = av_depth / 7.0D;
 
