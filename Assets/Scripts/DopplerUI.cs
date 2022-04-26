@@ -1,5 +1,9 @@
 using DopplerSim;
+using DopplerSim.Tools;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
+using Random = System.Random;
+
 
 public class DopplerUI : MonoBehaviour
 {
@@ -13,6 +17,7 @@ public class DopplerUI : MonoBehaviour
     [SerializeField] private DopplerVisualiser _dopplerVisualiser;
     [SerializeField] RaycastAngle _raycastAngle;
 
+    private Random rand;
     private float _timer = 0f;
     public void SetUp()
     {
@@ -29,7 +34,8 @@ public class DopplerUI : MonoBehaviour
             this.enabled = false;
         }
         
-        
+        rand = new Random();
+
         
         // _dopplerVisualiser.Simulator.ArterialVelocity = bloodVelocitySlider.CurrentValue;
         // _dopplerVisualiser.Simulator.SamplingDepth = depthSlider.CurrentValue;
@@ -40,6 +46,28 @@ public class DopplerUI : MonoBehaviour
         prfSlider.valueUpdate += PRFSliderUpdate;
         depthSlider.valueUpdate += SamplingDepthSliderUpdate;
         _raycastAngle.valueUpdate += AngleUpdate;
+    }
+    
+    public void SetRandomBloodVelocityWithinRange()
+    {
+        var r = (float)rand.NextGaussian(mu:0.5, sigma:0.15);
+        var lerpedRandomBloodVelocity = Mathf.Lerp(bloodVelocitySlider.minMaxValue.x, bloodVelocitySlider.minMaxValue.y, (float)r);
+        Debug.Log($"r: {r}, mixMax: {bloodVelocitySlider.minMaxValue}, lerped: {lerpedRandomBloodVelocity}");
+        bloodVelocitySlider.ChangeCurrentValueText(lerpedRandomBloodVelocity);
+        _dopplerVisualiser.Simulator.ArterialVelocity = lerpedRandomBloodVelocity;
+        _dopplerVisualiser.UpdateDoppler();
+    }
+    
+    public float GetBloodVelocity()
+    {
+        Debug.Assert(FloatComparer.AreEqualRelative(_dopplerVisualiser.Simulator.ArterialVelocity, bloodVelocitySlider.CurrentValue, 0.001f), "The blood velocities are not equal");
+        return _dopplerVisualiser.Simulator.ArterialVelocity;
+    }
+
+    public bool IsBloodVelocityEqual(float value, float accuracy = 0.1f)
+    {
+        return FloatComparer.AreEqualRelative(_dopplerVisualiser.Simulator.ArterialVelocity,
+            value, accuracy);
     }
 
     private void BloodVelocitySliderUpdate()
@@ -58,7 +86,6 @@ public class DopplerUI : MonoBehaviour
 
     private void PRFSliderUpdate()
     {
-
         _dopplerVisualiser.Simulator.PulseRepetitionFrequency = prfSlider.CurrentValue;
         _dopplerVisualiser.UpdateDoppler();
     }

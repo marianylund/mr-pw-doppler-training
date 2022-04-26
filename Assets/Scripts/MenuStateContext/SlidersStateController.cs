@@ -46,5 +46,10 @@ public class SlidersStateController : MonoBehaviour
         inputBloodVelocitySlider.gameObject.SetActive(true);
     }
 
+    public float GetCurrentInputValue()
+    {
+        return inputBloodVelocitySlider.CurrentValue;
+    }
+
     
 }

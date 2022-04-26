@@ -7,7 +7,7 @@ public class SimpleSliderBehaviour : MonoBehaviour
     public delegate void OnSliderEvent();
     public OnSliderEvent valueUpdate;
     [SerializeField]
-    private Vector2 minMaxValue = Vector2.up;
+    public Vector2 minMaxValue = Vector2.up;
     [SerializeField]
     private Text _currentValue;
     [SerializeField]
