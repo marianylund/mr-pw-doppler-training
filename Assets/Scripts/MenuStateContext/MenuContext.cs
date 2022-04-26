@@ -14,9 +14,9 @@ public enum MenuType
     Pin = 4,
     TutorialFinished = 5,
     Tracking = 6,
-    BLE = 7,
-    Measure = 8,
-    Estimate = 9,
+    BLE = -1000,//7,
+    Measure = 7,//8,
+    Estimate = 8,//9,
 }
 
 // Attempting to use State pattern: https://refactoring.guru/design-patterns/state/csharp/example
@@ -40,6 +40,7 @@ public class MenuContext : MonoBehaviour
     [SerializeField] public Orbital spectrogram;
     [SerializeField] public GameObject dialogPrefab;
     [SerializeField] public SlidersStateController slidersStateController;
+    [SerializeField] public AudioClip clipTrackingSuccess;
 
     private FollowMeToggle _followMeToggle;
     private RadialView _radialView;

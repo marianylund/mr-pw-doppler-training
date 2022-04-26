@@ -196,6 +196,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1655133252}
     m_Modifications:
+    - target: {fileID: 906764914, guid: 97bc194449159b849beb89ff31b7b682, type: 3}
+      propertyPath: m_Text
+      value: 'Max PRF: 815 kHz                      Max Velocity:<color=green> 100</color>
+        cm/s'
+      objectReference: {fileID: 0}
     - target: {fileID: 4536137788330095946, guid: 97bc194449159b849beb89ff31b7b682,
         type: 3}
       propertyPath: m_Pivot.x

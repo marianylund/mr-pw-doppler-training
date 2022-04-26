@@ -12,7 +12,6 @@ public class TrackingMenuState : MenuState
     [SerializeField] private Image droneCheckmark;
 
     [SerializeField] private Text statusText;
-    [SerializeField] private AudioClip clipTrackingSuccess;
 
     public delegate void OnVuforiaStateChange();
     public OnVuforiaStateChange stateChange;
@@ -154,7 +153,7 @@ public class TrackingMenuState : MenuState
     public void ImageTracked(Image im)
     {
         im.enabled = true;
-        Context.myAudioSource.PlayOneShot(clipTrackingSuccess);
+        Context.myAudioSource.PlayOneShot(Context.clipTrackingSuccess);
         if (IsTrackingFinished())
         {
             Context.nextButton.gameObject.SetActive(true);

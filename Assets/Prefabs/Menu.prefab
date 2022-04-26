@@ -22834,10 +22834,10 @@ RectTransform:
   m_Father: {fileID: 8047829222454859416}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 329.40323, y: -151.1194}
-  m_SizeDelta: {x: 658.80646, y: 302.2388}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8047829221287145389
 CanvasRenderer:
@@ -32520,10 +32520,10 @@ RectTransform:
   m_Father: {fileID: 8047829221919768146}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 329.40323, y: -222.9994}
-  m_SizeDelta: {x: 658.80646, y: 302.2388}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5590145856696033950
 MonoBehaviour:
@@ -36777,10 +36777,10 @@ RectTransform:
   m_Father: {fileID: 8047829221919768146}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 329.40323, y: -22.09}
-  m_SizeDelta: {x: 658.80646, y: 44.18}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8047829222953216575
 CanvasRenderer:
@@ -37207,7 +37207,8 @@ MonoBehaviour:
   dialogPrefab: {fileID: 2680377478557818543, guid: 8e686c90124b8e14cbf8093893109e9a,
     type: 3}
   slidersStateController: {fileID: 1310157571}
-  myAudioSource: {fileID: 0}
+  clipTrackingSuccess: {fileID: 8300000, guid: 2193e9060a088b24f97f48d1e1a4a862, type: 3}
+  myAudioSource: {fileID: 1733073845579715388}
 --- !u!114 &9020596022722270716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37238,7 +37239,6 @@ MonoBehaviour:
   astronautCheckmark: {fileID: 8047829222773774766}
   droneCheckmark: {fileID: 8047829222624198541}
   statusText: {fileID: 8047829221607119230}
-  clipTrackingSuccess: {fileID: 8300000, guid: 2193e9060a088b24f97f48d1e1a4a862, type: 3}
 --- !u!114 &9020596022722270712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37307,7 +37307,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjectMenu: {fileID: 8047829221919768145}
-  taskDoneAudioClip: {fileID: 8300000, guid: 2193e9060a088b24f97f48d1e1a4a862, type: 3}
   probeCoachPosition: {fileID: 0}
   raycastAngle: {fileID: 0}
 --- !u!114 &9020596022722270715
@@ -37327,6 +37326,7 @@ MonoBehaviour:
   showAnswer: {fileID: 1228679728755625806}
   submitValue: {fileID: 7972145229206427681}
   dopplerUI: {fileID: 0}
+  descriptionText: {fileID: 8047829221968763511}
 --- !u!114 &9020596022722270692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38209,7 +38209,7 @@ PrefabInstance:
     - target: {fileID: 2168197498152793745, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
       propertyPath: floatAccuracy
-      value: F1
+      value: F0
       objectReference: {fileID: 0}
     - target: {fileID: 2168197498152793745, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
@@ -38219,7 +38219,7 @@ PrefabInstance:
     - target: {fileID: 2168197498152793745, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
       propertyPath: minMaxValue.y
-      value: 3
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7444229876410450326, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
@@ -38472,7 +38472,7 @@ PrefabInstance:
     - target: {fileID: 2168197498152793745, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
       propertyPath: floatAccuracy
-      value: F1
+      value: F0
       objectReference: {fileID: 0}
     - target: {fileID: 2168197498152793745, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
@@ -38482,7 +38482,7 @@ PrefabInstance:
     - target: {fileID: 2168197498152793745, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}
       propertyPath: minMaxValue.y
-      value: 3
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7444229876410450326, guid: 5137e7fd76898704080acbd32174e537,
         type: 3}

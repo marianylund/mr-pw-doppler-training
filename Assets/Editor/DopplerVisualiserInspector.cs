@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace DopplerSim
 {
@@ -6,11 +7,13 @@ namespace DopplerSim
     public class DopplerVisualiserInspector : Editor
     {
         private DopplerVisualiser _dopplerVisualiser;
-        private float _arterialVelocity = 1.0f;
-        private float _pulseRepetitionFrequency = 20;
+        private float _arterialVelocity = 1.0f * DopplerVisualiser.ConvertFromTrueToVisualised;
+        private float _pulseRepetitionFrequency = 20 * DopplerVisualiser.ConvertFromTrueToVisualised;
         private float _angle = 45f;
         private float _samplingDepth = 0.5F;
-        private float _maxPrf = 22f;
+        private float _maxPrf = 22f * DopplerVisualiser.ConvertFromTrueToVisualised;
+
+        
 
         public override void OnInspectorGUI()
         {
@@ -19,7 +22,7 @@ namespace DopplerSim
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField("Arterial Velocity");
-            _arterialVelocity = EditorGUILayout.Slider(_arterialVelocity, 0.0f, 3.0f);
+            _arterialVelocity = EditorGUILayout.Slider(_arterialVelocity, 0.0f, _dopplerVisualiser.MaxArterialVelocity);
             EditorGUILayout.LabelField("Pulse Repetition Frequency");
             _pulseRepetitionFrequency = EditorGUILayout.Slider(_pulseRepetitionFrequency, 1f, _maxPrf);
             EditorGUILayout.LabelField("Angle");
@@ -30,12 +33,12 @@ namespace DopplerSim
             
             if (EditorGUI.EndChangeCheck())
             {
-                _dopplerVisualiser.Simulator.ArterialVelocity = _arterialVelocity;
-                _dopplerVisualiser.Simulator.PulseRepetitionFrequency = _pulseRepetitionFrequency;
-                _dopplerVisualiser.Simulator.Angle = _angle;
-                _dopplerVisualiser.Simulator.SamplingDepth = _samplingDepth;
+                _dopplerVisualiser.ArterialVelocity = _arterialVelocity;
+                _dopplerVisualiser.PulseRepetitionFrequency = _pulseRepetitionFrequency;
+                _dopplerVisualiser.Angle = _angle;
+                _dopplerVisualiser.SamplingDepth = _samplingDepth;
                 
-                _maxPrf = _dopplerVisualiser.Simulator.MaxPRF;
+                _maxPrf = _dopplerVisualiser.MaxPRF;
                 _dopplerVisualiser.UpdateDoppler();
             }
         }

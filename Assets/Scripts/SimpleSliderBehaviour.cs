@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine.UI;
@@ -67,6 +68,14 @@ public class SimpleSliderBehaviour : MonoBehaviour
     public void ChangeMinMaxValueText(float minValue, float maxValue)
     {
         _minValue.text = minValue.ToString(floatAccuracy);
+        _maxValue.text = maxValue.ToString(floatAccuracy);
+    }
+
+    public void UpdateMaxValue(float maxValue)
+    {
+        if (Math.Abs(maxValue - minMaxValue.y) < 0.01f)
+            return;
+        minMaxValue.y = maxValue;
         _maxValue.text = maxValue.ToString(floatAccuracy);
     }
 

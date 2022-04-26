@@ -16,7 +16,7 @@ public class SlidersStateController : MonoBehaviour
     {
         ChangeVisibilityAll(false);
     }
-
+    
     private void ChangeVisibilityAll(bool active)
     {
         bloodVelocitySlider.gameObject.SetActive(active);
@@ -34,6 +34,7 @@ public class SlidersStateController : MonoBehaviour
     {
         prfSlider.gameObject.SetActive(true);
         depthSlider.gameObject.SetActive(true);
+        inputBloodVelocitySlider.UpdateMaxValue(bloodVelocitySlider.minMaxValue.y);
         bloodVelocitySlider.gameObject.SetActive(ControlBloodVelocity);
         inputBloodVelocitySlider.gameObject.SetActive(false);
     }

@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class MeasureMenuState : MenuState
 {
-    [SerializeField] private AudioClip taskDoneAudioClip;
+
     [SerializeField] private Transform probeCoachPosition;
     [SerializeField] private RaycastAngle raycastAngle;
     public override MenuType GetMenuType() => MenuType.Measure;
     
     private void IntersectedForTheFirstTime(int newAngle)
     {
-        Context.myAudioSource.PlayOneShot(taskDoneAudioClip);
+        Context.myAudioSource.PlayOneShot(Context.clipTrackingSuccess);
         Context.interactionHint.StopHand();
     }
 
