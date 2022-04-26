@@ -10,7 +10,8 @@ public class MeasureMenuState : MenuState
     private void IntersectedForTheFirstTime(int newAngle)
     {
         Context.myAudioSource.PlayOneShot(Context.clipTrackingSuccess);
-        Context.interactionHint.StopHand();
+        Context.interactionHint.StopProbe();
+        raycastAngle.valueUpdate -= IntersectedForTheFirstTime;
     }
 
     public override void Show()
@@ -26,12 +27,12 @@ public class MeasureMenuState : MenuState
         raycastAngle.valueUpdate -= IntersectedForTheFirstTime;
         Context.slidersStateController.HideAll();
         gameObjectMenu.SetActive(false);
-        Context.interactionHint.StopHand();
+        Context.interactionHint.StopProbe();
     }
 
     private void OnDisable()
     {
         raycastAngle.valueUpdate -= IntersectedForTheFirstTime;
-        Context.interactionHint.StopHand();
+        Context.interactionHint.StopProbe();
     }
 }

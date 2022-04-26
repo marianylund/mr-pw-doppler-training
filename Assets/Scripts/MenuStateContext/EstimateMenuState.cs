@@ -26,7 +26,7 @@ public class EstimateMenuState : MenuState
     private void ShowAnswer()
     {
         var actualValue = dopplerUI.GetBloodVelocity();
-         var str = $"The arterial velocity is around <b>{actualValue}</b> cm/s, the input chosen value is <b>{Mathf.RoundToInt(InputValue)}</b> cm/s.";
+         var str = $"The arterial velocity is around <b>{Mathf.RoundToInt(actualValue)}</b> cm/s, the input chosen value is <b>{Mathf.RoundToInt(InputValue)}</b> cm/s.";
 
         if (Math.Abs(InputValue - actualValue) < 5)
         {
@@ -54,10 +54,10 @@ public class EstimateMenuState : MenuState
         int input = Mathf.RoundToInt(InputValue);
         if (Math.Abs(InputValue - actualValue) < 5)
         {
-            Context.myAudioSource.PlayOneShot(Context.clipTrackingSuccess);
+            Context.myAudioSource.PlayOneShot(Context.clipVelocitySuccess);
 
             descriptionText.text =
-                $"You submitted <b>{input}</b> cm/s and it is <b><color=green>correct</color></b> since the arterial velocity was <b>{actualValue}</b> cm/s. Well done! Feel free to try again by pressing <b><color=yellow>New Value</color></b> button";
+                $"You submitted <b>{input}</b> cm/s and it is <b><color=green>correct</color></b> since the arterial velocity was <b>{Mathf.RoundToInt(actualValue)}</b> cm/s. Well done! Feel free to try again by pressing <b><color=yellow>New Value</color></b> button";
         }
         else
         {

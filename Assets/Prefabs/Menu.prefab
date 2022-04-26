@@ -6466,7 +6466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1798014317100515409
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17804,10 +17804,10 @@ RectTransform:
   m_Father: {fileID: 1798014317100515409}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 622.133, y: 0}
-  m_SizeDelta: {x: 622.133, y: 48}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &7579136542238604436
 MonoBehaviour:
@@ -21973,7 +21973,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8047829221233312777}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 299, y: -224.43999, z: -13.999939}
+  m_LocalPosition: {x: 299, y: -241.3, z: -13.999939}
   m_LocalScale: {x: 2000, y: 2000, z: 2000}
   m_Children:
   - {fileID: 8047829221562155992}
@@ -24380,10 +24380,10 @@ RectTransform:
   m_Father: {fileID: 1798014317100515409}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 311.0665, y: -88.55}
-  m_SizeDelta: {x: 622.133, y: 38}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8047829221524326130
 CanvasRenderer:
@@ -33172,7 +33172,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 93, y: 44.5}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &8047829222518080057
 CanvasRenderer:
@@ -33575,10 +33575,10 @@ RectTransform:
   m_Father: {fileID: 1798014317100515409}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 311.0665, y: -220.35}
-  m_SizeDelta: {x: 622.133, y: 182.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8047829222552327582
 CanvasRenderer:
@@ -37208,6 +37208,7 @@ MonoBehaviour:
     type: 3}
   slidersStateController: {fileID: 1310157571}
   clipTrackingSuccess: {fileID: 8300000, guid: 2193e9060a088b24f97f48d1e1a4a862, type: 3}
+  clipVelocitySuccess: {fileID: 8300000, guid: 82bb32b8900f55c488f190d835ffcd99, type: 3}
   myAudioSource: {fileID: 1733073845579715388}
 --- !u!114 &9020596022722270716
 MonoBehaviour:

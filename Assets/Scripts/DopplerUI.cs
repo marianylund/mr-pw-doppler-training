@@ -58,7 +58,7 @@ public class DopplerUI : MonoBehaviour
     
     public void SetRandomBloodVelocityWithinRange()
     {
-        var r = (float)rand.NextGaussian(mu:0.3, sigma:0.1);
+        var r = Mathf.Abs((float)rand.NextGaussian(mu:0.35, sigma:0.15));
         var lerpedRandomBloodVelocity = Mathf.Lerp(bloodVelocitySlider.minMaxValue.x, bloodVelocitySlider.minMaxValue.y, (float)r);
         Debug.Log($"r: {r}, mixMax: {bloodVelocitySlider.minMaxValue}, lerped: {lerpedRandomBloodVelocity}");
         bloodVelocitySlider.ChangeCurrentValueText(lerpedRandomBloodVelocity);
@@ -68,14 +68,7 @@ public class DopplerUI : MonoBehaviour
     
     public float GetBloodVelocity()
     {
-        Debug.Assert(FloatComparer.AreEqualRelative(_dopplerVisualiser.ArterialVelocity, bloodVelocitySlider.CurrentValue, 0.001f), "The blood velocities are not equal");
         return _dopplerVisualiser.ArterialVelocity;
-    }
-
-    public bool IsBloodVelocityEqual(float value, float accuracy = 0.1f)
-    {
-        return FloatComparer.AreEqualRelative(_dopplerVisualiser.ArterialVelocity,
-            value, accuracy);
     }
 
     private void BloodVelocitySliderUpdate()

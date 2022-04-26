@@ -25,7 +25,7 @@ public class MenuContext : MonoBehaviour
 {
     // public delegate void MenuController(MenuType newType);
     // public MenuController OnStateChange;
-    
+    private const int NumberOfMenus = 8; // while BLE is hidden
     private MenuType _previousType = MenuType.None;
     private MenuType _currentType = MenuType.None;
     
@@ -41,6 +41,7 @@ public class MenuContext : MonoBehaviour
     [SerializeField] public GameObject dialogPrefab;
     [SerializeField] public SlidersStateController slidersStateController;
     [SerializeField] public AudioClip clipTrackingSuccess;
+    [SerializeField] public AudioClip clipVelocitySuccess;
 
     private FollowMeToggle _followMeToggle;
     private RadialView _radialView;
@@ -184,7 +185,7 @@ public class MenuContext : MonoBehaviour
     
     private void SetPreviousNextButtonsActivation()
     {
-        if ((int) _currentType + 1 > _menus.Count)
+        if ((int) _currentType + 1 > NumberOfMenus)//_menus.Count)
         {
             nextButton.gameObject.SetActive(false);
         }else if (!nextButton.gameObject.activeSelf)
