@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class AngleMenuState : MenuState
+public class MeasureMenuState : MenuState
 {
     [SerializeField] private AudioClip taskDoneAudioClip;
     [SerializeField] private Transform probeCoachPosition;
-    public override MenuType GetMenuType() => MenuType.Angle;
-
-    // TODO: Subscribe to valueUpdate from RaycastAngle the first time to play it
-    private void IntersectedForTheFirstTime()
+    [SerializeField] private RaycastAngle raycastAngle;
+    public override MenuType GetMenuType() => MenuType.Measure;
+    
+    private void IntersectedForTheFirstTime(int newAngle)
     {
         Context.myAudioSource.PlayOneShot(taskDoneAudioClip);
         Context.interactionHint.StopHand();
@@ -17,16 +17,21 @@ public class AngleMenuState : MenuState
     {
         gameObjectMenu.SetActive(true);
         Context.interactionHint.ShowProbe(probeCoachPosition);
+        Context.slidersStateController.SetMeasureState();
+        raycastAngle.valueUpdate += IntersectedForTheFirstTime;
     }
 
     public override void Hide()
     {
+        raycastAngle.valueUpdate -= IntersectedForTheFirstTime;
+        Context.slidersStateController.HideAll();
         gameObjectMenu.SetActive(false);
         Context.interactionHint.StopHand();
     }
 
     private void OnDisable()
     {
+        raycastAngle.valueUpdate -= IntersectedForTheFirstTime;
         Context.interactionHint.StopHand();
     }
 }

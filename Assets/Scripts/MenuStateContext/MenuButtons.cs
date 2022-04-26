@@ -49,11 +49,11 @@ public class MenuButtons : MonoBehaviour
         {
             bleButton.gameObject.SetActive(true);
             bleButton.IsToggled = true;
-        }else if (menuState == MenuType.Angle)
+        }else if (menuState == MenuType.Measure)
         {
             angleButton.gameObject.SetActive(true);
             angleButton.IsToggled = true;
-        }else if (menuState == MenuType.PRF)
+        }else if (menuState == MenuType.Estimate)
         {
             prfButton.gameObject.SetActive(true);
             prfButton.IsToggled = true;

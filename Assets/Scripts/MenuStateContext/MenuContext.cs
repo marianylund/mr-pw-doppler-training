@@ -15,8 +15,8 @@ public enum MenuType
     TutorialFinished = 5,
     Tracking = 6,
     BLE = 7,
-    Angle = 8,
-    PRF = 9,
+    Measure = 8,
+    Estimate = 9,
 }
 
 // Attempting to use State pattern: https://refactoring.guru/design-patterns/state/csharp/example
@@ -39,6 +39,7 @@ public class MenuContext : MonoBehaviour
     [SerializeField] public InteractionsCoachHelper interactionHint;
     [SerializeField] public Orbital spectrogram;
     [SerializeField] public GameObject dialogPrefab;
+    [SerializeField] public SlidersStateController slidersStateController;
 
     private FollowMeToggle _followMeToggle;
     private RadialView _radialView;
@@ -115,12 +116,6 @@ public class MenuContext : MonoBehaviour
         SetState((MenuType) (((int) MenuType.Welcome) + 1));
     }
 
-    public void ShowAngleMenu()
-    {
-        SetState(MenuType.Angle);
-    }
-    
-
     public void ShowTrackingMenu()
     {
         SetState(MenuType.Tracking);
@@ -131,9 +126,14 @@ public class MenuContext : MonoBehaviour
         SetState(MenuType.BLE);
     }
     
-    public void ShowPRFMenu()
+    public void ShowMeasureMenu()
     {
-        SetState(MenuType.PRF);
+        SetState(MenuType.Measure);
+    }
+    
+    public void ShowEstimateMenu()
+    {
+        SetState(MenuType.Estimate);
     }
 
     private bool CheckAllowedState(MenuType newType)
