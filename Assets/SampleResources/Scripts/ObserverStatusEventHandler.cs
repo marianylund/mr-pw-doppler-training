@@ -58,8 +58,8 @@ public class ObserverStatusEventHandler : DefaultObserverEventHandler
         mPreviousStatus = mCurrentStatus;
         mCurrentStatus = newStatus;
         
-        Debug.Log($"Observer { mObserverBehaviour.TargetName } " +
-                  $"{ mObserverBehaviour.TargetStatus.Status } -- { mObserverBehaviour.TargetStatus.StatusInfo }");
+        //Debug.Log($"Observer { mObserverBehaviour.TargetName } " +
+        //          $"{ mObserverBehaviour.TargetStatus.Status } -- { mObserverBehaviour.TargetStatus.StatusInfo }");
         
         HandleTargetStatusChanged();
     }

@@ -42,7 +42,7 @@ public class DopplerUI : MonoBehaviour
         // _dopplerVisualiser.PulseRepetitionFrequency = prfSlider.CurrentValue;
         // _dopplerVisualiser.Angle = _raycastAngle.CurrentAngle;
 
-        UpdateMaxValues(_dopplerVisualiser.MaxPRF, _dopplerVisualiser.MaxArterialVelocity);
+        UpdateMaxValues(22f, _dopplerVisualiser.MaxArterialVelocity);
         
         bloodVelocitySlider.valueUpdate += BloodVelocitySliderUpdate;
         prfSlider.valueUpdate += PRFSliderUpdate;

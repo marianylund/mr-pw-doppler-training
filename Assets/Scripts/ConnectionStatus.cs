@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ConnectionStatus : MonoBehaviour
 {
+    public bool ShowBLE = true;
     [SerializeField] private BLEBehaviour _ble;
     [SerializeField] private Text status;
 
@@ -10,7 +12,17 @@ public class ConnectionStatus : MonoBehaviour
     private readonly Color disconnectedColour = Color.Lerp(Color.white, Color.red, 0.3f);
 
     private bool prevConnection;
-    
+
+    private void Start()
+    {
+        if (!ShowBLE)
+        {
+            status.text = "";
+        }
+        Debug.Log("BLE is disabled, so turning off ConnectionStatus printing");
+        this.enabled = false;
+    }
+
     private void Update()
     {
         if (prevConnection != _ble.isConnected)

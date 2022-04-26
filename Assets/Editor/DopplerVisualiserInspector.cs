@@ -11,7 +11,7 @@ namespace DopplerSim
         private float _pulseRepetitionFrequency = 20 * DopplerVisualiser.ConvertFromTrueToVisualised;
         private float _angle = 45f;
         private float _samplingDepth = 0.5F;
-        private float _maxPrf = 22f * DopplerVisualiser.ConvertFromTrueToVisualised;
+        private float _maxPrf = 22f;
 
         
 

@@ -42,7 +42,7 @@ public class SimpleSliderBehaviour : MonoBehaviour
         }
 
         ChangeMinMaxValueText(minMaxValue.x, minMaxValue.y);
-        Debug.Log("Current value of " + name + " " + CurrentValue);
+        //Debug.Log("Current value of " + name + " " + CurrentValue);
         _pinchSlider.OnValueUpdated.AddListener(OnSliderChange);
         _pinchSlider.OnInteractionEnded.AddListener((SliderEventData eventData) => valueUpdate?.Invoke());
     }
