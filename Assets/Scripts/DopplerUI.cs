@@ -18,6 +18,8 @@ public class DopplerUI : MonoBehaviour
     [SerializeField] private DopplerVisualiser _dopplerVisualiser;
     [SerializeField] RaycastAngle _raycastAngle;
 
+    private DepthWindow _depthWindow;
+
     private Random rand;
     public void SetUp()
     {
@@ -33,7 +35,8 @@ public class DopplerUI : MonoBehaviour
             Debug.LogError("Values are not set up correctly on DopplerUI");
             this.enabled = false;
         }
-        
+
+        _depthWindow = _raycastAngle.GetComponent<DepthWindow>();
         rand = new Random();
 
         
