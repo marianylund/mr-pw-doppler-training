@@ -1,4 +1,5 @@
 using System;
+using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
 
 public class DepthWindow : MonoBehaviour
@@ -35,6 +36,8 @@ public class DepthWindow : MonoBehaviour
         }
     }
 
+    public Vector2 MixMaxDepth { get; } = new Vector2(-0.1f, 0f);
+
     private float _windowSize = 0.0056f * 2;
 
     private Transform window;
@@ -47,12 +50,17 @@ public class DepthWindow : MonoBehaviour
         startDepth = window.localPosition;
     }
 
+    public void UpdateDepthFromSlider(SliderEventData data)
+    {
+        DepthDebug = Mathf.Lerp( MixMaxDepth.x, MixMaxDepth.y, data.NewValue);
+    }
+
     /// <summary>
     /// Calculates distance to each point and compares them to see if some of the points are inside to calculate the overlap
     /// </summary>
     /// <param name="i1">Point of hit in world position</param>
     /// <param name="i2">Point of hit backwards in world position</param>
-    public void CalculateOverlap(Vector3 i1, Vector3 i2)
+    public float CalculateOverlap(Vector3 i1, Vector3 i2)
     {
 
         Vector3 p1 = top.position;
@@ -97,5 +105,6 @@ public class DepthWindow : MonoBehaviour
         //Debug.DrawRay(bottom.position, -localForward * distToP2, Color.green);
 
         Overlap = overlap;
+        return overlap;
     }
 }

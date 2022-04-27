@@ -43,6 +43,14 @@ namespace DopplerSim
             }
         }
 
+        public float Overlap
+        {
+            get => overlap;
+            set => overlap = value;
+        }
+
+        private float overlap = 0f;
+
         public bool IsVelocityOverMax => vArt > MaxVelocity;
         
         private double vArtSD;
@@ -84,43 +92,55 @@ namespace DopplerSim
             for (int t = 0; t < n_timepoints; t++) {
                 //Debug.Log(arterialPulse(1.0D, t));
                 
-                timepoints[t] = generateDisplay(getVelocityComponents(depth), arterialPulse(1.0D, t));
+                //timepoints[t] = generateDisplay(getVelocityComponents(depth), arterialPulse(1.0D, t));
+                timepoints[t] = generateDisplay(new double[]{overlap, 0D, 1D}, arterialPulse(1.0D, t));
             }
             plotTime.setData(timepoints);
             return plotTime.texture;
         }
 
+        // public void UpdatePlot(int timepoint)
+        // {
+        //     // do the generate Display on a separate thread
+        //     plotTime.data[timepoint] = generateDisplay(getVelocityComponents(depth), arterialPulse(1.0D, timepoint));
+        //     plotTime.setOneDataRow(timepoint);
+        // }
+        
+        /// <summary>
+        /// Instead of calculating the overlap based on the depth, get the values
+        /// </summary>
+        /// <param name="velocityComponents"> expects {art_overlap_total, ven_overlap_total, stationary}</param>
         public void UpdatePlot(int timepoint)
         {
             // do the generate Display on a separate thread
-            plotTime.data[timepoint] = generateDisplay(getVelocityComponents(depth), arterialPulse(1.0D, timepoint));
+            plotTime.data[timepoint] = generateDisplay(new double[]{overlap, 0D, 1D}, arterialPulse(1.0D, timepoint));
             plotTime.setOneDataRow(timepoint);
         }
         
-        protected double[] getVelocityComponents(double depth) {
-            double avpos = av_depth / 7.0D;
-
-            if (depth + 0.1D < avpos - 0.0125D - 0.1D)
-                return new double[] { 0.0D, 0.0D, 1.0D };
-            if (depth - 0.1D > avpos + 0.0125D + 0.1D) {
-                return new double[] { 0.0D, 0.0D, 1.0D };
-            }
-            double ven_overlap1 = Math.Max(depth - 0.05D, avpos - 0.0125D - 0.1D);
-            double ven_overlap2 = Math.Min(depth + 0.05D, avpos - 0.0125D);
-            double ven_overlap_total = (ven_overlap2 - ven_overlap1) / 0.1D;
-            if (ven_overlap_total < 0.0D) {
-                ven_overlap_total = 0.0D;
-            }
-            double art_overlap1 = Math.Max(depth - 0.05D, avpos + 0.0125D);
-            double art_overlap2 = Math.Min(depth + 0.05D, avpos + 0.0125D + 0.1D);
-            double art_overlap_total = (art_overlap2 - art_overlap1) / 0.1D;
-            if (art_overlap_total < 0.0D) {
-                art_overlap_total = 0.0D;
-            }
-            double stationary = Math.Max(1.0D - ven_overlap_total - art_overlap_total, 0.0D);
-
-            return new double[] { art_overlap_total, ven_overlap_total, stationary };
-        }
+        // protected double[] getVelocityComponents(double depth) {
+        //     double avpos = av_depth / 7.0D;
+        //
+        //     if (depth + 0.1D < avpos - 0.0125D - 0.1D)
+        //         return new double[] { 0.0D, 0.0D, 1.0D };
+        //     if (depth - 0.1D > avpos + 0.0125D + 0.1D) {
+        //         return new double[] { 0.0D, 0.0D, 1.0D };
+        //     }
+        //     double ven_overlap1 = Math.Max(depth - 0.05D, avpos - 0.0125D - 0.1D);
+        //     double ven_overlap2 = Math.Min(depth + 0.05D, avpos - 0.0125D);
+        //     double ven_overlap_total = (ven_overlap2 - ven_overlap1) / 0.1D;
+        //     if (ven_overlap_total < 0.0D) {
+        //         ven_overlap_total = 0.0D;
+        //     }
+        //     double art_overlap1 = Math.Max(depth - 0.05D, avpos + 0.0125D);
+        //     double art_overlap2 = Math.Min(depth + 0.05D, avpos + 0.0125D + 0.1D);
+        //     double art_overlap_total = (art_overlap2 - art_overlap1) / 0.1D;
+        //     if (art_overlap_total < 0.0D) {
+        //         art_overlap_total = 0.0D;
+        //     }
+        //     double stationary = Math.Max(1.0D - ven_overlap_total - art_overlap_total, 0.0D);
+        //
+        //     return new double[] { art_overlap_total, ven_overlap_total, stationary };
+        // }
         
         public static double arterialPulse(double f, double t) {
             double n = 13.0D;

@@ -84,7 +84,10 @@ public class DopplerUI : MonoBehaviour
     {
         // Depth is weird and needs to be 0.05 and 1.0 where around av_depth / 7.0D + 0.0125D + 0.05D
         // If av_depth is 3.0, so optimal depth is around 0.49107142857 is the optimum
-        _dopplerVisualiser.SamplingDepth = Mathf.Clamp(prfSlider.CurrentRawValue, 0.05f, 1.0f);
+        _dopplerVisualiser.SamplingDepth = Mathf.Clamp(depthSlider.CurrentRawValue, 0.05f, 1.0f);
+        _dopplerVisualiser.Overlap = _depthWindow.Overlap;
+        Debug.Log($"sample slider updated. Depth: {_depthWindow.DepthDebug} raw: {depthSlider.CurrentRawValue}");
+
         _dopplerVisualiser.UpdateDoppler();
     }
 
@@ -94,9 +97,11 @@ public class DopplerUI : MonoBehaviour
         _dopplerVisualiser.UpdateDoppler();
     }
 
-    private void AngleUpdate(int newAngle)
+    private void AngleUpdate(int newAngle, float overlap)
     {
+        Debug.Log("Updating angle or overlap : " + overlap);
         _dopplerVisualiser.Angle = _raycastAngle.CurrentAngle;
+        _dopplerVisualiser.Overlap = overlap;
         _dopplerVisualiser.UpdateDoppler();
     }
 

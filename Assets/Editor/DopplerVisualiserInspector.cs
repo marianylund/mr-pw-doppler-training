@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace DopplerSim
@@ -12,6 +13,7 @@ namespace DopplerSim
         private float _angle = 45f;
         private float _samplingDepth = 0.5F;
         private float _maxPrf = 22f;
+        private RaycastAngle raycastAngle;
 
         
 
@@ -19,6 +21,12 @@ namespace DopplerSim
         {
             DrawDefaultInspector();
             _dopplerVisualiser = (DopplerVisualiser)target;
+            
+            raycastAngle = FindObjectOfType<RaycastAngle>();
+            if (raycastAngle != null)
+            {
+                raycastAngle.valueUpdate += AngleUpdate;
+            }
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField("Arterial Velocity");
@@ -41,6 +49,21 @@ namespace DopplerSim
                 _maxPrf = _dopplerVisualiser.MaxPRF;
                 _dopplerVisualiser.UpdateDoppler();
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (raycastAngle != null)
+            {
+                raycastAngle.valueUpdate -= AngleUpdate;
+            }
+        }
+
+        private void AngleUpdate(int newAngle, float overlap)
+        {
+            _dopplerVisualiser.Angle = raycastAngle.CurrentAngle;
+            _dopplerVisualiser.Overlap = overlap;
+            _dopplerVisualiser.UpdateDoppler();
         }
         
     }

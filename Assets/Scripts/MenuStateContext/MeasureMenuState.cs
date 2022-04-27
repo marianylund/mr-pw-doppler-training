@@ -7,7 +7,7 @@ public class MeasureMenuState : MenuState
     [SerializeField] private RaycastAngle raycastAngle;
     public override MenuType GetMenuType() => MenuType.Measure;
     
-    private void IntersectedForTheFirstTime(int newAngle)
+    private void IntersectedForTheFirstTime(int newAngle, float overlap)
     {
         Context.myAudioSource.PlayOneShot(Context.clipTrackingSuccess);
         Context.interactionHint.StopProbe();

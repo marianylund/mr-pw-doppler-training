@@ -52,8 +52,14 @@ namespace DopplerSim
         {
             get => _simulator.SamplingDepth;
             set => _simulator.SamplingDepth = value;
-        } 
-        
+        }
+
+        public float Overlap
+        {
+            get => _simulator.Overlap;
+            set => _simulator.Overlap = value;
+        }
+
         private RawImage _rawImage;
         private DopplerSimulator _simulator;
 
@@ -134,6 +140,7 @@ namespace DopplerSim
         private IEnumerator UpdateDopplerGraphRoutine(Action onFinish)
         {
             loadingLine.gameObject.SetActive(true);
+            Debug.Log("Overlap in doppler " + Overlap); 
             for (int t = _simulator.n_timepoints - 1; t >= 0; t--) // have to go in opposite direction to go from left to right
             {
                 _simulator.UpdatePlot(t);

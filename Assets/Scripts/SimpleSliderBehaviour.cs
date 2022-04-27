@@ -24,7 +24,7 @@ public class SimpleSliderBehaviour : MonoBehaviour
     /// <summary>
     /// Non-interpolated current slider value
     /// </summary>
-    public float CurrentRawValue => _pinchSlider.SliderValue;
+    public float CurrentRawValue { get; private set; }
 
     [SerializeField]
     private string floatAccuracy = "F0";
@@ -44,7 +44,10 @@ public class SimpleSliderBehaviour : MonoBehaviour
         ChangeMinMaxValueText(minMaxValue.x, minMaxValue.y);
         //Debug.Log("Current value of " + name + " " + CurrentValue);
         _pinchSlider.OnValueUpdated.AddListener(OnSliderChange);
-        _pinchSlider.OnInteractionEnded.AddListener((SliderEventData eventData) => valueUpdate?.Invoke());
+        _pinchSlider.OnInteractionEnded.AddListener((SliderEventData eventData) =>
+        {
+            valueUpdate?.Invoke();
+        });
     }
 
     private void OnDestroy()
@@ -54,6 +57,7 @@ public class SimpleSliderBehaviour : MonoBehaviour
 
     public void OnSliderChange(SliderEventData data)
     {
+        CurrentRawValue = data.NewValue;
         float newValue = Mathf.Lerp(
             minMaxValue.x, minMaxValue.y, data.NewValue);
         ChangeCurrentValueText(newValue);
@@ -86,5 +90,6 @@ public class SimpleSliderBehaviour : MonoBehaviour
     internal void SetNormalisedValue(float newValue)
     {
         _pinchSlider.SliderValue = newValue;
+        CurrentRawValue = newValue;
     }
 }
