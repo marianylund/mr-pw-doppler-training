@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class BLEMenuState : MenuState
 {
-    public bool printDebug = true;
+    private bool printDebug = false;
     public override MenuType GetMenuType() => MenuType.BLE;
     
     // Reference to the BLE Component
@@ -13,11 +13,49 @@ public class BLEMenuState : MenuState
     [SerializeField] private Text textTargetDeviceData;
     [SerializeField] private Text textWriteData;
     [SerializeField] private Text textDiscoveredDevices;
+    [SerializeField] private Text textSimpleInfo;
+    [SerializeField] private GameObject debugParent;
 
     public void Init(string targetDeviceName)
     {
         textTargetDeviceConnection.text = targetDeviceName + " not found.";
+        textSimpleInfo.text = $"Not connected, please, press Connect to search for {targetDeviceName} to connect to and wait a little bit.";
+
         OnNotScanning();
+
+        if (printDebug)
+        {
+            ShowDebugInfo();
+        }
+        else
+        {
+            HideDebugInfo();
+        }
+    }
+
+    public void ToggleDebug()
+    {
+        printDebug = !printDebug;
+        if (printDebug)
+        {
+            ShowDebugInfo();
+        }
+        else
+        {
+            HideDebugInfo();
+        }
+    }
+    
+    public void HideDebugInfo()
+    {
+        debugParent.SetActive(false);
+        textSimpleInfo.gameObject.SetActive(true);
+    }
+    
+    public void ShowDebugInfo()
+    {
+        debugParent.SetActive(true);
+        textSimpleInfo.gameObject.SetActive(false);
     }
 
     public void CleanUp()
@@ -27,15 +65,18 @@ public class BLEMenuState : MenuState
         textTargetDeviceData.text = "";
         textIsScanning.text = "";
         textTargetDeviceConnection.text = "";
+        textSimpleInfo.text = $"Not connected, please, press Connect to search for the device to connect to and wait a little bit.";
     }
     
     public void UpdateDiscoveredDevices(IDictionary<string, string> discoveredDevices)
     {
         textDiscoveredDevices.text = "";
+
         foreach (KeyValuePair<string, string> entry in discoveredDevices)
         {
             textDiscoveredDevices.text += "DeviceID: " + entry.Key + "\nDeviceName: " + entry.Value + "\n\n";
             Debug.Log("Added device: " + entry.Key);
+            textSimpleInfo.text = $"Please, wait while we are looking for the device. We are finding something ...";
         }
     }
 
@@ -63,6 +104,7 @@ public class BLEMenuState : MenuState
         textIsScanning.text +=
             $"Searching for {targetDeviceName} with \nservice {serviceUuid} and \ncharacteristic {characteristicUuids[0]}";
         textDiscoveredDevices.text = "";
+        textSimpleInfo.text = $"Please, wait while we are looking for {targetDeviceName} ...";
     }
     
     public void ReadingThreadTimedOut(float readingTimer)
@@ -70,6 +112,8 @@ public class BLEMenuState : MenuState
         textTargetDeviceConnection.text = "Reading thread is timed out, disconnecting ...";
         textDiscoveredDevices.text = "Discovered devices reset.";
         textTargetDeviceData.text = $"Have not been able to get new data for {readingTimer} seconds";
+
+        textSimpleInfo.text = "Something went wrong with the connection. Please, try to Disconnect and Connect again.";
     }
     
     public void NoNewData(float readingTimer)
@@ -97,16 +141,19 @@ public class BLEMenuState : MenuState
     public void OnRestartingConnection(string targetDeviceName)
     {
         textTargetDeviceConnection.text = targetDeviceName + " not found. Restarted ...";
+        textSimpleInfo.text = "Please, wait, restarting the connection ...";
     }
     
     public void UpdateConnectedText(string targetDeviceName)
     {
         textTargetDeviceConnection.text = "Connected to target device:\n" + targetDeviceName;
+        textSimpleInfo.text = "Connected! Nothing to do here, please, press Next to continue.";
     }
     
     public void DeviceFoundNotConnected(string targetDeviceName)
     {
         textTargetDeviceConnection.text = "Found target device:\n" + targetDeviceName;
+        textSimpleInfo.text = $"Good news, found {targetDeviceName}! But have not connected to it yet, please, wait.";
     }
 
     public override void Show()

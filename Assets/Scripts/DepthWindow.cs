@@ -105,6 +105,6 @@ public class DepthWindow : MonoBehaviour
         //Debug.DrawRay(bottom.position, -localForward * distToP2, Color.green);
 
         Overlap = overlap;
-        return overlap;
+        return 1.0f;//overlap;
     }
 }

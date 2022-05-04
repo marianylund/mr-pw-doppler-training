@@ -52,6 +52,8 @@ public class BLEBehaviour : MonoBehaviour
         _ble = new BLE();
         _readingThread = new Thread(ReadBleData);
         menu.Init(_targetDeviceName);
+        
+        StartScanHandler();
     }
 
     private void Update()

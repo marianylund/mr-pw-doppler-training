@@ -14,9 +14,9 @@ public enum MenuType
     Pin = 4,
     TutorialFinished = 5,
     Tracking = 6,
-    BLE = -1000,//7,
-    Measure = 7,//8,
-    Estimate = 8,//9,
+    BLE = 7,
+    Measure = 8,
+    Estimate = 9,
 }
 
 // Attempting to use State pattern: https://refactoring.guru/design-patterns/state/csharp/example
@@ -25,7 +25,6 @@ public class MenuContext : MonoBehaviour
 {
     // public delegate void MenuController(MenuType newType);
     // public MenuController OnStateChange;
-    private const int NumberOfMenus = 8; // while BLE is hidden
     private MenuType _previousType = MenuType.None;
     private MenuType _currentType = MenuType.None;
     
@@ -185,7 +184,7 @@ public class MenuContext : MonoBehaviour
     
     private void SetPreviousNextButtonsActivation()
     {
-        if ((int) _currentType + 1 > NumberOfMenus)//_menus.Count)
+        if ((int) _currentType + 1 > _menus.Count)
         {
             nextButton.gameObject.SetActive(false);
         }else if (!nextButton.gameObject.activeSelf)

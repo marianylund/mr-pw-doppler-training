@@ -99,7 +99,7 @@ public class TrackingMenuState : MenuState
     {
         astronautCheckmark.enabled = false;
         droneCheckmark.enabled = false;
-        statusText.text = "Tracking is not ready";
+        statusText.text = "No images are tracked yet. Try to slowly get them closer/further to/from your eyes.";
     }
 
     public override MenuType GetMenuType() => MenuType.Tracking;
@@ -141,10 +141,10 @@ public class TrackingMenuState : MenuState
         {
             yield return new WaitForSeconds(waitTime);
             ImageTracked(astronautCheckmark);
-            statusText.text = "Astronaut found";
+            statusText.text = "Astronaut found and tracked";
             yield return new WaitForSeconds(waitTime);
             ImageTracked(droneCheckmark);
-            statusText.text = "Drone found";
+            statusText.text = "Drone found and tracked";
         }
 
         _simulationRoutine = null;
@@ -156,6 +156,7 @@ public class TrackingMenuState : MenuState
         Context.myAudioSource.PlayOneShot(Context.clipTrackingSuccess);
         if (IsTrackingFinished())
         {
+            statusText.text = "Both images are tracked. Remember to keep the images in view for continuous tracking.";
             Context.nextButton.gameObject.SetActive(true);
         }
     }
