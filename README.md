@@ -2,6 +2,7 @@
 This project is part of a master thesis by Maria Nylund with the supervision of Gabriel Kiss and Ekaterina Prasolova-Førland.
 
 ## Build
+After cloning the repo, you might need to run ```git lfs fetch``` and ```git lfs pull``` to get the Dlls and Vuforia package.
 In Visual Studio choose "Release", "ARM64" and click "Build without Debugging" with HoloLens 2 connected through USB and turned on.
 
 ## Tracking images
